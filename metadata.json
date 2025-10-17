@@ -1,0 +1,5 @@
+{
+  "name": "Student Attendance System",
+  "description": "A modern, responsive web application for tracking student attendance. Mark students as present, absent, or late, and view historical records with ease. Data is saved locally for persistence.",
+  "requestFramePermissions": []
+}
