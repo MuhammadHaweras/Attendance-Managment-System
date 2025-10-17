@@ -9,6 +9,7 @@ import ClassSelector from './components/ClassSelector';
 import ClassModal from './components/ClassModal';
 import ManageClassesModal from './components/ManageClassesModal';
 import { PlusIcon, SearchIcon } from './components/Icons';
+import Typewriter from './components/Typewriter';
 
 const getInitialState = () => {
   try {
@@ -285,6 +286,10 @@ const App: React.FC = () => {
           </button>
         </div>
       </header>
+      
+      <div className="bg-gray-900 text-center py-3 shadow-lg">
+        <Typewriter text="Developed by Haweras" />
+      </div>
 
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white p-6 rounded-lg shadow-lg mb-8">

@@ -17,6 +17,22 @@
   }
 }
 </script>
+  <style>
+    .blinking-cursor {
+        display: inline-block;
+        width: 2px;
+        height: 1em;
+        background-color: currentColor;
+        margin-left: 4px;
+        animation: blink 1s step-end infinite;
+        vertical-align: bottom;
+    }
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+  </style>
 </head>
   <body class="bg-gray-50">
     <div id="root"></div>
