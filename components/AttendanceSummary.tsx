@@ -8,13 +8,13 @@ interface AttendanceSummaryProps {
 
 // FIX: Changed icon type from JSX.Element to React.ReactNode to resolve "Cannot find namespace 'JSX'" error.
 const SummaryCard: React.FC<{ title: string; count: number; color: string; icon: React.ReactNode }> = ({ title, count, color, icon }) => (
-  <div className={`p-4 rounded-lg flex items-center space-x-4 ${color}`}>
-    <div className="text-white p-2 rounded-full bg-black bg-opacity-10">
+  <div className={`p-4 sm:p-5 rounded-lg flex items-center space-x-3 sm:space-x-4 ${color} shadow-md`}>
+    <div className="text-white p-2 sm:p-3 rounded-full bg-black bg-opacity-10 flex-shrink-0">
       {icon}
     </div>
-    <div>
-      <p className="text-white font-bold text-2xl">{count}</p>
-      <p className="text-white text-sm opacity-90">{title}</p>
+    <div className="flex-1 min-w-0">
+      <p className="text-white font-bold text-2xl sm:text-3xl">{count}</p>
+      <p className="text-white text-sm sm:text-base opacity-90 font-medium">{title}</p>
     </div>
   </div>
 );
@@ -49,7 +49,7 @@ const AttendanceSummary: React.FC<AttendanceSummaryProps> = ({ records }) => {
 
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
       <SummaryCard title="Present" count={summary.present} color="bg-green-500" icon={PresentIcon} />
       <SummaryCard title="Absent" count={summary.absent} color="bg-red-500" icon={AbsentIcon} />
       <SummaryCard title="Unmarked" count={summary.unmarked} color="bg-gray-500" icon={UnmarkedIcon} />

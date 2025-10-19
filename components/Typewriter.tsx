@@ -4,32 +4,33 @@ interface TypewriterProps {
   text: string;
   speed?: number;
   className?: string;
+  showCursor?: boolean;
 }
 
-const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 150, className = '' }) => {
+const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 150, className = '', showCursor = true }) => {
   const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     setDisplayedText(''); // Reset on text change
-    let i = 0;
-    const typingInterval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayedText(prev => prev + text.charAt(i));
-        i++;
-      } else {
-        clearInterval(typingInterval);
-      }
-    }, speed);
+    setCurrentIndex(0);
+  }, [text]);
 
-    return () => {
-      clearInterval(typingInterval);
-    };
-  }, [text, speed]);
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(text.substring(0, currentIndex + 1));
+        setCurrentIndex(currentIndex + 1);
+      }, speed);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [currentIndex, text, speed]);
 
   return (
-    <div className={`font-mono text-green-400 text-sm md:text-base inline-block ${className}`}>
+    <div className={className}>
       <span>{displayedText}</span>
-      <span className="blinking-cursor"></span>
+      {showCursor && <span className="blinking-cursor"></span>}
     </div>
   );
 };

@@ -12,16 +12,16 @@ interface ClassSelectorProps {
 
 const ClassSelector: React.FC<ClassSelectorProps> = ({ classes, selectedClassId, onSelectClass, onAddClass, onManageClasses }) => {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-      <div className="flex items-center gap-4 flex-grow">
-        <label htmlFor="class-selector" className="text-lg font-semibold text-gray-700 whitespace-nowrap">
+    <div className="flex flex-col gap-3 sm:gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+        <label htmlFor="class-selector" className="text-base sm:text-lg font-semibold text-gray-700">
           Current Class:
         </label>
         <select
           id="class-selector"
           value={selectedClassId ?? ''}
           onChange={(e) => onSelectClass(Number(e.target.value))}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900"
+          className="flex-1 px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900 text-base sm:text-sm font-medium"
           disabled={classes.length === 0}
         >
           {classes.map((c) => (
@@ -31,17 +31,17 @@ const ClassSelector: React.FC<ClassSelectorProps> = ({ classes, selectedClassId,
           ))}
         </select>
       </div>
-      <div className="flex items-center gap-2 flex-shrink-0">
+      <div className="flex items-center gap-2 sm:gap-3">
          <button
             onClick={onAddClass}
-            className="flex items-center gap-2 bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-indigo-600 transition-colors"
+            className="flex-1 sm:flex-none items-center justify-center gap-1 sm:gap-2 bg-indigo-500 text-white font-semibold px-4 sm:px-5 py-2.5 sm:py-2 rounded-lg shadow-md hover:bg-indigo-600 transition-colors text-sm sm:text-base flex"
           >
             <PlusIcon />
             <span>New Class</span>
           </button>
         <button
             onClick={onManageClasses}
-            className="flex items-center gap-2 bg-gray-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-gray-700 transition-colors"
+            className="flex-1 sm:flex-none items-center justify-center gap-1 sm:gap-2 bg-gray-600 text-white font-semibold px-4 sm:px-5 py-2.5 sm:py-2 rounded-lg shadow-md hover:bg-gray-700 transition-colors text-sm sm:text-base flex"
           >
             <EditIcon />
             <span>Manage</span>

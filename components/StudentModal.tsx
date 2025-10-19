@@ -6,9 +6,10 @@ interface StudentModalProps {
   onClose: () => void;
   onSave: (studentData: { id?: number; name: string; rollNumber: string }) => void;
   student: Student | null;
+  existingStudents: Student[];
 }
 
-const StudentModal: React.FC<StudentModalProps> = ({ isOpen, onClose, onSave, student }) => {
+const StudentModal: React.FC<StudentModalProps> = ({ isOpen, onClose, onSave, student, existingStudents }) => {
   const [name, setName] = useState('');
   const [rollNumber, setRollNumber] = useState('');
   const [error, setError] = useState('');
@@ -28,11 +29,25 @@ const StudentModal: React.FC<StudentModalProps> = ({ isOpen, onClose, onSave, st
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate required fields
     if (!name.trim() || !rollNumber.trim()) {
       setError('Both name and roll number are required.');
       return;
     }
-    onSave({ id: student?.id, name, rollNumber });
+
+    // Check for duplicate roll number
+    const trimmedRollNumber = rollNumber.trim();
+    const duplicateStudent = existingStudents.find(
+      s => s.rollNumber.toLowerCase() === trimmedRollNumber.toLowerCase() && s.id !== student?.id
+    );
+
+    if (duplicateStudent) {
+      setError(`Roll number "${trimmedRollNumber}" is already assigned to ${duplicateStudent.name}.`);
+      return;
+    }
+
+    onSave({ id: student?.id, name, rollNumber: trimmedRollNumber });
   };
 
   return (
@@ -59,6 +74,19 @@ const StudentModal: React.FC<StudentModalProps> = ({ isOpen, onClose, onSave, st
           </div>
           
           <div className="p-6 space-y-4">
+          <div>
+              <label htmlFor="roll-number" className="block text-sm font-medium text-gray-700 mb-1">
+                Roll Number
+              </label>
+              <input
+                id="roll-number"
+                type="text"
+                value={rollNumber}
+                onChange={(e) => setRollNumber(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900"
+                placeholder="Enter Student Roll No."
+              />
+            </div>
             <div>
               <label htmlFor="student-name" className="block text-sm font-medium text-gray-700 mb-1">
                 Student Name
@@ -69,23 +97,11 @@ const StudentModal: React.FC<StudentModalProps> = ({ isOpen, onClose, onSave, st
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900"
-                placeholder="e.g., John Doe"
+                placeholder="Enter Student Name: "
                 autoFocus
               />
             </div>
-            <div>
-              <label htmlFor="roll-number" className="block text-sm font-medium text-gray-700 mb-1">
-                Roll Number
-              </label>
-              <input
-                id="roll-number"
-                type="text"
-                value={rollNumber}
-                onChange={(e) => setRollNumber(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-900"
-                placeholder="e.g., S011"
-              />
-            </div>
+
             {error && <p className="text-sm text-red-600">{error}</p>}
           </div>
 
